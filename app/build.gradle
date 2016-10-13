@@ -6,10 +6,11 @@ android {
 
   defaultConfig {
     applicationId "com.androidatelier.offlinetrails"
-    minSdkVersion 21
+    minSdkVersion 15
     targetSdkVersion 24
     versionCode 1
     versionName "1.0"
+    vectorDrawables.useSupportLibrary = true
   }
   buildTypes {
     release {
