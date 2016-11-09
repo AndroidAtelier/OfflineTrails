@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/download_map"
+          android:title="@string/download"
+          android:icon="@drawable/ic_file_download_black_24px"
+          app:showAsAction="ifRoom" />
+    <item android:id="@+id/list_maps"
+          android:title="@string/map_list"
+          android:icon="@drawable/ic_list_black_24px"
+          app:showAsAction="ifRoom" />
+</menu>
