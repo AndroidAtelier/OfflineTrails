@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.mapbox.mapboxsdk.MapboxAccountManager;
@@ -31,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
   private MapView mapView;
   private MapboxMap map = null;
 
+  private ProgressBar progressBar;
+
   // Offline objects
   private OfflineManager offlineManager;
   private OfflineRegion offlineRegion;
@@ -50,7 +54,10 @@ public class MainActivity extends AppCompatActivity {
         map = mapboxMap;
       }
     });
+
+    progressBar = (ProgressBar) findViewById(R.id.progress);
   }
+
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getMenuInflater();
@@ -119,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
         if (status.isComplete()) {
           // Download complete
           Toast.makeText(MainActivity.this, "Region downloaded successfully.", Toast.LENGTH_SHORT).show();
+          progressBar.setVisibility(View.GONE);
           return;
         }
 
@@ -127,19 +135,27 @@ public class MainActivity extends AppCompatActivity {
                 String.valueOf(status.getCompletedResourceCount()),
                 String.valueOf(status.getRequiredResourceCount()),
                 String.valueOf(status.getCompletedResourceSize())));
+        progressBar.setProgress((int) status.getCompletedResourceCount());
+        progressBar.setMax((int) status.getRequiredResourceCount());
       }
 
       @Override
       public void onError(OfflineRegionError error) {
         Log.e(TAG, "onError reason: " + error.getReason());
         Log.e(TAG, "onError message: " + error.getMessage());
+        progressBar.setVisibility(View.GONE);
       }
 
       @Override
       public void mapboxTileCountLimitExceeded(long limit) {
         Log.e(TAG, "Mapbox tile count limit exceeded: " + limit);
+        progressBar.setVisibility(View.GONE);
       }
     });
+
+    progressBar.setProgress(0);
+    progressBar.setMax(100);
+    progressBar.setVisibility(View.VISIBLE);
 
     // Change the region state
     offlineRegion.setDownloadState(OfflineRegion.STATE_ACTIVE);
