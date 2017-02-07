@@ -8,6 +8,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -22,13 +24,13 @@ import com.mapbox.mapboxsdk.offline.OfflineRegionError;
 import com.mapbox.mapboxsdk.offline.OfflineRegionStatus;
 import com.mapbox.mapboxsdk.offline.OfflineTilePyramidRegionDefinition;
 
+import java.nio.charset.Charset;
+
 public class MainActivity extends AppCompatActivity {
 
   public static final String TAG = "OfflineTrails";
 
-  // JSON encoding/decoding
-  public final static String JSON_CHARSET = "UTF-8";
-  public final static String JSON_FIELD_REGION_NAME = "FIELD_REGION_NAME";
+  public final static Charset CHARSET = Charset.forName("UTF-8");
 
   private MapView mapView;
   private MapboxMap map = null;
@@ -38,6 +40,11 @@ public class MainActivity extends AppCompatActivity {
   // Offline objects
   private OfflineManager offlineManager;
   private OfflineRegion offlineRegion;
+
+  private View regionNameContainer;
+  private Button regionNameOkButton;
+  private Button regionNameCancelButton;
+  private EditText regionNameEditText;
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -56,6 +63,32 @@ public class MainActivity extends AppCompatActivity {
     });
 
     progressBar = (ProgressBar) findViewById(R.id.progress);
+
+    regionNameContainer = findViewById(R.id.region_name_container);
+    regionNameOkButton =  (Button) findViewById(R.id.region_name_ok_button);
+    regionNameCancelButton = (Button) findViewById(R.id.region_name_cancel_button);
+    regionNameEditText = (EditText) findViewById(R.id.region_name_edit_text);
+
+    regionNameOkButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        String name = regionNameEditText.getText().toString().trim();
+        if (!name.isEmpty()) {
+          downloadMap(name);
+          regionNameContainer.setVisibility(View.GONE);
+        } else {
+          Toast.makeText(MainActivity.this, getString(R.string.region_name_toast),
+              Toast.LENGTH_LONG).show();
+        }
+      }
+    });
+
+    regionNameCancelButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        regionNameContainer.setVisibility(View.GONE);
+      }
+    });
   }
 
   @Override
@@ -81,11 +114,14 @@ public class MainActivity extends AppCompatActivity {
     if (zoom < 12.5) {
       Toast.makeText(this, R.string.please_zoom_in_more, Toast.LENGTH_LONG).show();
     } else {
-      downloadMap();
+      showRegionName();
     }
   }
+  private void showRegionName() {
+    regionNameContainer.setVisibility(View.VISIBLE);
+  }
 
-  private void downloadMap() {
+  private void downloadMap(String name) {
     LatLngBounds bounds = map.getProjection().getVisibleRegion().latLngBounds;
     Toast.makeText(this, bounds.toString(), Toast.LENGTH_SHORT).show();
 
@@ -98,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
     OfflineTilePyramidRegionDefinition definition = new OfflineTilePyramidRegionDefinition(
             styleURL, bounds, minZoom, maxZoom, pixelRatio);
 
-    byte[] metadata = null;
+    byte[] metadata = name.getBytes(CHARSET);
 
     // Create the offline region and launch the download
     offlineManager.createOfflineRegion(definition, metadata, new OfflineManager.CreateOfflineRegionCallback() {

@@ -6,4 +6,6 @@
 
   <color name="progressBarBackground">#F8BBD0</color>
   <color name="progressBarProgress">@color/colorAccent</color>
+
+  <color name="regionNameInputBackground">#F8BBD0</color>
 </resources>

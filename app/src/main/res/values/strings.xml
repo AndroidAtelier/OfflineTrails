@@ -4,4 +4,8 @@
   <string name="download">Download</string>
   <string name="map_list">Map List</string>
   <string name="please_zoom_in_more">Please zoom in more</string>
+  <string name="ok">OK</string>
+  <string name="cancel">Cancel</string>
+  <string name="region_name">Region name</string>
+  <string name="region_name_toast">Name cannot be empty</string>
 </resources>
