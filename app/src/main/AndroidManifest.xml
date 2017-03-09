@@ -19,6 +19,10 @@
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
+    <activity
+      android:name=".ListActivity"
+      android:label="@string/title_list"
+      android:parentActivityName=".MainActivity"/>
 
     <service android:name="com.mapbox.mapboxsdk.telemetry.TelemetryService" />
 

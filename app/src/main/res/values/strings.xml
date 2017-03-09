@@ -8,4 +8,7 @@
   <string name="cancel">Cancel</string>
   <string name="region_name">Region name</string>
   <string name="region_name_toast">Name cannot be empty</string>
+  <string name="title_list">Downloaded Regions</string>
+  <string name="loading">Loading</string>
+  <string name="empty">Empty</string>
 </resources>
