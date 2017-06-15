@@ -6,16 +6,16 @@ import android.support.v7.app.AppCompatActivity;
 
 public class SavedMapActivity extends AppCompatActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_saved_map);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_saved_map);
 
-        String mapTitle = getIntent().getStringExtra("map_title");
+    String mapTitle = getIntent().getStringExtra("map_title");
 
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setTitle(mapTitle);
-        }
+    ActionBar actionBar = getSupportActionBar();
+    if (actionBar != null) {
+      actionBar.setTitle(mapTitle);
     }
+  }
 }
