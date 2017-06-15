@@ -13,10 +13,11 @@
     android:layout_marginStart="4dp"
     app:srcCompat="@drawable/ic_delete"
     app:layout_constraintEnd_toEndOf="parent"/>
-  <ImageView
+  <ImageButton
     android:id="@+id/map"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
     app:srcCompat="@drawable/ic_map"
     app:layout_constraintEnd_toStartOf="@id/delete"/>
   <TextView
