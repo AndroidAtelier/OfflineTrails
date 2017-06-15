@@ -27,7 +27,7 @@ public class ListActivity extends AppCompatActivity implements ListContract.View
     recyclerView = (RecyclerView) findViewById(R.id.list);
     emptyView = (TextView) findViewById(R.id.empty);
 
-    adapter = new RegionAdapter();
+    adapter = new RegionAdapter(this);
     recyclerView.setHasFixedSize(true);
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
     recyclerView.setAdapter(adapter);
