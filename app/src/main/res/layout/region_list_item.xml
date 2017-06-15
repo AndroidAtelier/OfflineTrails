@@ -18,7 +18,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="?android:attr/selectableItemBackground"
-    app:srcCompat="@drawable/ic_map"
+    android:contentDescription="@string/map_button_description" app:srcCompat="@drawable/ic_map"
     app:layout_constraintEnd_toStartOf="@id/delete"/>
   <TextView
     android:id="@+id/name"

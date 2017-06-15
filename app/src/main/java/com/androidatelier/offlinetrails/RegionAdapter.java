@@ -1,6 +1,8 @@
 package com.androidatelier.offlinetrails;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,9 +17,11 @@ import java.util.ArrayList;
 
 public class RegionAdapter extends RecyclerView.Adapter<RegionViewHolder> {
   private final ArrayList<OfflineRegion> regions;
+  private Context context;
 
-  public RegionAdapter() {
+  public RegionAdapter(Context context) {
     regions = new ArrayList<>();
+    this.context = context;
   }
 
   public void setRegions(OfflineRegion[] regions) {
@@ -31,14 +35,25 @@ public class RegionAdapter extends RecyclerView.Adapter<RegionViewHolder> {
   public RegionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     View view = LayoutInflater.from(parent.getContext()).inflate(
         R.layout.region_list_item, parent, false);
+
     ImageButton mapButton = (ImageButton) view.findViewById(R.id.map);
+
+    final RegionViewHolder regionViewHolder = new RegionViewHolder(view);
+
     mapButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         Log.d("test", "map click");
+        Intent intent = new Intent(context, SavedMapActivity.class);
+
+        byte[] metadata = regions.get(regionViewHolder.getAdapterPosition()).getMetadata();
+        String mapTitle = new String(metadata);
+
+        intent.putExtra("map_title", mapTitle);
+        context.startActivity(intent);
       }
     });
-    return new RegionViewHolder(view);
+    return regionViewHolder;
   }
 
   @Override
